@@ -1,6 +1,7 @@
-package com.example.test;
+package com.example.test.socket_chat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -17,13 +18,13 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("===========접속===========");
+        System.out.println("===========CONNECT===========");
         System.out.println("session ID = "+ session.getId());
         System.out.println("session Accept Protocol = "+ session.getAcceptedProtocol());
         System.out.println("session LocalAddress = "+ session.getLocalAddress());
         System.out.println("session RemoteAddress = "+ session.getRemoteAddress());
         System.out.println("session Uri = "+ session.getUri());
-        System.out.println("===========접속===========");
+        System.out.println("===========CONNECT===========");
 
         list.add(session);
     }
@@ -32,10 +33,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("====메세지 도착====");
+        System.out.println("====MESSAGE RECEIVE====");
         //payload는 전송되는 데이터를 의미
         System.out.println("session Id = "+session.getId()+", 받은 message payload = "+message.getPayload());
-        System.out.println("====메세지 끝====");
+        System.out.println("====MESSAGE====");
 
         System.out.println("session ID = "+ session.getId());
         System.out.println("session Accept Protocol = "+ session.getAcceptedProtocol());
@@ -44,6 +45,31 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         System.out.println("session Uri = "+ session.getUri());
 
         ChatMessage chatMessage=new ChatMessage();
+        chatMessage.setName(message.toString());
+        chatMessage.setMessage(message.getPayload());
 
+        String json=objectMapper.writeValueAsString(chatMessage);
+
+        //세션에 존재하는 모든 client에게 메시지 전송
+        for(WebSocketSession wss:list){
+           wss.sendMessage(new TextMessage(json));
+        }
     }
+
+    /*
+    연결 종료 시 호출되는 메소드
+     */
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
+        System.out.println("===========CONNECT CLOSE===========");
+        System.out.println("session ID = "+ session.getId());
+        System.out.println("session Accept Protocol = "+ session.getAcceptedProtocol());
+        System.out.println("session LocalAddress = "+ session.getLocalAddress());
+        System.out.println("session RemoteAddress = "+ session.getRemoteAddress());
+        System.out.println("session Uri = "+ session.getUri());
+        System.out.println("===========CONNECT CLOSE===========");
+
+        list.remove(session);
+    }
+
 }
