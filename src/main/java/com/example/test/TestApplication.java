@@ -1,4 +1,4 @@
-package com.example.test.socket_chat;
+package com.example.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

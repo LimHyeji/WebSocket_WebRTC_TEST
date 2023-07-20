@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>STREAMING</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="webrtc/js/streaming.js"></script>
+    <link rel="stylesheet" type="text/css" href="webrtc/main.css"/>
+</head>
+<body class="text-center">
+<!-- Begin page content -->
+<main role="main" class="container-fluid">
+    <h1>Simple WebRTC Signalling Server</h1>
+    <div class="d-flex justify-content-around mb-3">
+        <div id="buttons" class="">
+            <button type="button" class="btn btn-primary" id="qvga">QVGA</button>
+            <button type="button" class="btn btn-primary" id="vga">VGA</button>
+            <button type="button" class="btn btn-primary" id="hd">HD</button>
+        </div>
+    </div>
+    <div id="videoblock" class="col-lg-12 mb-3">
+        <video autoplay playsinline></video>
+    </div>
+</main>
+</body>
+</html>
