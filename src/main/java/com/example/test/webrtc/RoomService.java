@@ -33,6 +33,7 @@ public class RoomService {
 
     public Optional<Room> findRoomByStringId(final String sid) {
         // simple get() because of parser errors handling
+        System.out.println("ROOMSERVICE CALL");
         return rooms.stream().filter(r -> r.getId().equals(parser.parseId(sid).get())).findAny();
     }
 

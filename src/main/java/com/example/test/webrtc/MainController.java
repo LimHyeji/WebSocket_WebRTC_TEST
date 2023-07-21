@@ -31,6 +31,7 @@ public class MainController {
      */
     @PostMapping(value="/room",params = "action=create")
     public ModelAndView processRoomSelection(@ModelAttribute("id") final String sid, @ModelAttribute("uuid") final String uuid, final BindingResult binding){
+        System.out.println("processRoomSelection call");
         return this.mainService.processRoomSelection(sid,uuid,binding);
     }
 
@@ -40,17 +41,21 @@ public class MainController {
      */
     @GetMapping("/room/{sid}/user/{uuid}")
     public ModelAndView displaySelectedRoom(@PathVariable("sid") final String sid, @PathVariable("uuid") final String uuid){
+        System.out.println("displaySelectedRoom call");
+        System.out.println(uuid+" enter room #"+sid);
         return this.mainService.displaySelectedRoom(sid,uuid);
     }
 
     /* 채팅방에서 나갈 때 실행 */
     @GetMapping("/room/{sid}/user/{uuid}/exit")
     public ModelAndView processRoomExit(@PathVariable("sid") final String sid,@PathVariable("uuid") final String uuid){
+        System.out.println("processRoomExit call");
         return this.mainService.processRoomExit(sid,uuid);
     }
 
     @GetMapping("/room/random")
     public ModelAndView requestRandomRoomNumber(@ModelAttribute("uuid") final String uuid){
+        System.out.println("requestRandomRoomNumber call");
         return mainService.requestRandomRoomNumber(uuid);
     }
 
@@ -60,11 +65,13 @@ public class MainController {
      */
     @GetMapping("/offer")
     public ModelAndView displaySampleSdpOffer(){
+        System.out.println("displaySampleSdpOffer call");
         return new ModelAndView("sdp_offer");
     }
 
     @GetMapping("/stream")
     public ModelAndView displaySampleStreaming(){
+        System.out.println("displaySampleStreaming call");
         return new ModelAndView("streaming");
     }
 }

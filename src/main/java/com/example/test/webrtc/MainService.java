@@ -51,10 +51,13 @@ public class MainService {
      */
     public ModelAndView displaySelectedRoom(final String sid, final String uuid) {
         // redirect to main page if provided data is invalid
+        //System.out.println("SERVICE: BEFORE MODELANDVIEW");
         ModelAndView modelAndView=new ModelAndView(REDIRECT);
-
+        //System.out.println("SERVICE: AFTER MODELANDVIEW");
         if(parser.parseId(sid).isPresent()){
+            //System.out.println("SERVICE: PARSING SID IS PRESENT");
             Room room=roomService.findRoomByStringId(sid).orElse(null);
+            System.out.println("SERVICE: "+room.toString());
             if(room!=null&&uuid!=null&&!uuid.isEmpty()){
                 modelAndView=new ModelAndView("chat_room","id",sid);
                 modelAndView.addObject("uuid",uuid);

@@ -42,6 +42,7 @@ public class SignalHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status){
+        System.out.println("SIGNALHANDLER: afterConnectionClosed");
         System.out.println("[ws] Session has been closed with status "+status);
         sessionIdToRoomMap.remove(session.getId());
     }
@@ -56,10 +57,12 @@ public class SignalHandler extends TextWebSocketHandler {
         // webSocket has been opened, send a message to the client
         // when data field contains 'true' value, the client starts negotiating
         // to establish peer-to-peer connection, otherwise they wait for a counterpart
+        System.out.println("SIGNALHANDLER: afterConnectionEstablished");
         sendMessage(session,new WebSocketMessage("Server",MSG_TYPE_JOIN,Boolean.toString(!sessionIdToRoomMap.isEmpty()),null,null));
     }
 
     private void sendMessage(WebSocketSession session,WebSocketMessage message){
+        System.out.println("SIGNALHANDLER: sendMessage");
         try{
             String json=objectMapper.writeValueAsString(message);
             session.sendMessage(new TextMessage(json));
@@ -74,12 +77,14 @@ public class SignalHandler extends TextWebSocketHandler {
      */
     @Override
     protected  void handleTextMessage(final WebSocketSession session,final TextMessage textMessage){
+        System.out.println("SIGNALHANDLER: handleTextMessage");
         // a message has been received
         try{
+            System.out.println(textMessage.getPayload());
             WebSocketMessage message=objectMapper.readValue(textMessage.getPayload(),WebSocketMessage.class);
             System.out.print("[ws] Message of "+message.getType()+" type from "+ message.getFrom()+" received");
             String userName=message.getFrom(); // origin of the message
-            String data=message.getData(); // payload // room id가 들어온다
+            Object data=message.getData(); // payload // room id가 들어온다
 
             Room room;
             switch (message.getType()){
@@ -121,7 +126,7 @@ public class SignalHandler extends TextWebSocketHandler {
                 case MSG_TYPE_JOIN:
                     // message.data contains connected room id
                     System.out.println("[ws] "+userName+" has joined Room: #"+message.getData());
-                    room = roomService.findRoomByStringId(data)
+                    room = roomService.findRoomByStringId("1")
                             .orElseThrow(() -> new IOException("Invalid room number received!"));
                     // add client to the Room clients list
                     roomService.addClient(room, userName, session);

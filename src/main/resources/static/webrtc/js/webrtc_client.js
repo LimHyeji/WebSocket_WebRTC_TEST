@@ -8,7 +8,7 @@ const videoButtonOn = document.querySelector('#video_on');
 const audioButtonOff = document.querySelector('#audio_off');
 const audioButtonOn = document.querySelector('#audio_on');
 const exitButton = document.querySelector('#exit');
-const localRoom = document.querySelector('input#id').value;
+const localRoom = document.querySelector('input#id');
 /**
  * localVideo가 Video 스트림 가져온다
  * remoteVideo가 원격의 video 스트림 가져온다
